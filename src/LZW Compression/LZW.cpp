@@ -22,7 +22,8 @@ std::vector<unsigned int> LZW::LZW::compress(std::string inString)
     std::vector<unsigned int> I{};
     std::string buf{};
 
-    for (char &&item : inString) {
+    for (size_t i = 0; i < inString.length(); ++i) {
+        char item = inString[i];
         if (buf.empty() or mDict.at(buf+item))
         {
             buf += item;
