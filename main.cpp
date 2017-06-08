@@ -7,13 +7,18 @@
 
 int main()
 {
-    LZW::LZW lzw;
+    LZW::Encoder lzwe;
 
-    auto v = lzw.compress("TOBEORNOTTOBEORTOBEORNOT");
+    auto v = lzwe.compress("TOBEORNOTTOBEORTOBEORNOT");
 
     for (auto &&item :v) {
         std::cout << item << " ";
     }
 
     std::cout << std::endl;
+
+    LZW::Decoder lzwd;
+
+    std::cout << lzwd.decompress(v) << std::endl;
+
 }

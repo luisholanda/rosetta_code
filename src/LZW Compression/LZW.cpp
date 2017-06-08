@@ -6,21 +6,21 @@
 #include <iostream>
 #include "LZW.h"
 
-LZW::LZW::LZW()
+LZW::Encoder::Encoder()
 {
     initialize();
 }
 
-LZW::LZW::~LZW()
+LZW::Encoder::~Encoder()
 {}
 
-void LZW::LZW::add(std::string inString)
+void LZW::Encoder::add(std::string inString)
 {
     mDict[inString] = mNextCode;
     mNextCode++;
 }
 
-void LZW::LZW::initialize()
+void LZW::Encoder::initialize()
 {
     for (int i = 0; i < 256; ++i) {
         std::string init{};
@@ -29,17 +29,7 @@ void LZW::LZW::initialize()
     }
 }
 
-void print(std::map<std::string, unsigned int> map)
-{
-    for (auto &&item : map) {
-        if (item.first != "")
-            std::cout << item.first << ", " << item.second << std::endl;
-    }
-
-    std::cout << std::endl;
-}
-
-std::vector<unsigned int> LZW::LZW::compress(std::string inString)
+std::vector<uint> LZW::Encoder::compress(std::string inString)
 {
     std::vector<unsigned int> I{};
     std::string buf{""};
@@ -60,9 +50,55 @@ std::vector<unsigned int> LZW::LZW::compress(std::string inString)
     return I;
 }
 
-std::string LZW::LZW::decompress(std::vector<unsigned int> inString)
+
+LZW::Decoder::Decoder()
 {
-    std::string I{};
+    initialize();
+}
+
+LZW::Decoder::~Decoder()
+{}
+
+void LZW::Decoder::add(std::string inString)
+{
+    mDict[mNextCode] = inString;
+    mNextCode++;
+}
+
+void LZW::Decoder::initialize(void)
+{
+    for (int i = 0; i < 256; ++i) {
+        std::string item{};
+        item = static_cast<char>(i);
+        add(item);
+    }
+}
+
+std::string LZW::Decoder::decompress(std::vector<uint> inVector)
+{
+    std::string I{}, P{}, C{};
+    uint cW, pW;
+
+    cW = inVector.at(0);
+
+    I += mDict.at(cW);
+
+    for (int i = 1; i < inVector.size(); ++i) {
+        pW = cW;
+        cW = inVector.at(static_cast<uint>(i));
+
+        if (mDict.count(cW) != 0) {
+            I += mDict.at(cW);
+            P = mDict.at(pW);
+            C = mDict.at(cW)[0];
+            add(P+C);
+        } else {
+            P = mDict.at(pW);
+            C = P[0];
+            I += P+C;
+            add(P+C);
+        }
+    }
 
     return I;
 }
