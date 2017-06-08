@@ -2,9 +2,18 @@
 // Created by luiscm on 05/06/17.
 //
 
-#include "src/99 Bottles of Beer/99Bottles.h"
+#include <iostream>
+#include "src/LZW Compression/LZW.h"
 
 int main()
 {
-    BeerBottles::main();
+    LZW::LZW lzw;
+
+    auto v = lzw.compress("TOBEORNOTTOBEORTOBEORNOT");
+
+    for (auto &&item :v) {
+        std::cout << item << " ";
+    }
+
+    std::cout << std::endl;
 }

@@ -7,6 +7,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 namespace LZW
 {
@@ -17,13 +18,14 @@ namespace LZW
         virtual ~LZW();
 
         std::vector<unsigned int> compress(std::string inString);
-        std::string decompress(std::string inString);
+        std::string decompress(std::vector<unsigned int> inString);
 
     private:
         std::map<std::string, unsigned int> mDict;
         unsigned int mNextCode = 0;
 
         void add(std::string inString);
+        void initialize(void);
     };
 }
 
