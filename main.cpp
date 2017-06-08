@@ -1,24 +1,19 @@
-//
-// Created by luiscm on 05/06/17.
-//
+/**
+ * @Author: Luis Holanda <luisholanda>
+ * @Date:   07-Jun-2017
+ * @Email:  luiscmholanda@gmail.com
+ * @Last modified by:   luisholanda
+ * @Last modified time: 08-Jun-2017
+ */
 
+#include "src/Subtractive generator/Generator.h"
 #include <iostream>
-#include "src/LZW Compression/LZW.h"
 
 int main()
 {
-    LZW::Encoder lzwe;
+    gen::Generator generator{292929};
 
-    auto v = lzwe.compress("TOBEORNOTTOBEORTOBEORNOT");
+    // std::cout << generator.generate() << std::endl;
 
-    for (auto &&item :v) {
-        std::cout << item << " ";
-    }
-
-    std::cout << std::endl;
-
-    LZW::Decoder lzwd;
-
-    std::cout << lzwd.decompress(v) << std::endl;
-
+    return 0;
 }

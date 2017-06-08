@@ -11,33 +11,33 @@
 namespace CRC32
 {
 
-    CRC32::CRC32()
-    {
-        compute_table();
-    }
+	CRC32::CRC32()
+	{
+		compute_table();
+	}
 
-    CRC32::~CRC32()
-    {}
+	CRC32::~CRC32()
+	{}
 
-    void CRC32::compute_table(void)
-    {
-        unsigned long c;
-        int n, k;
+	void CRC32::compute_table(void)
+	{
+		unsigned long c;
+		int n, k;
 
-        for (n = 0; n < 256; ++n) {
-            c = static_cast<unsigned long>(n);
+		for (n = 0; n < 256; ++n) {
+			c = static_cast<unsigned long>(n);
 
-            for (k = 0; k < 8; ++k) {
-                if (c & 1) {
-                    c = 0xEDB88320L ^ (c >> 1);
-                } else {
-                    c = c >> 1;
-                }
-            }
+			for (k = 0; k < 8; ++k) {
+				if (c & 1) {
+					c = 0xEDB88320L ^ (c >> 1);
+				} else {
+					c = c >> 1;
+				}
+			}
 
-            mTable[n] = c;
-        }
-    }
+			mTable[n] = c;
+		}
+	}
 
     unsigned long CRC32::update_crc(std::string inString)
     {
